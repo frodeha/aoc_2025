@@ -4,6 +4,9 @@ day_1:
 day_2:
 	make -C day_2 run
 
-all: day_1 day_2
+day_3:
+	make -C day_3 run
 
-.PHONY: all day_1 day_2
+all: day_1 day_2 day_3
+
+.PHONY: all day_1 day_2 day_3

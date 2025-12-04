@@ -1,12 +1,16 @@
-day_1:
-	make -C day_1 run
+build:
+	@go build -ldflags "-X main.binary=aoc2025" -o aoc2025 cmd/main.go
 
-day_2:
-	make -C day_2 run
+day_1: build
+	./aoc2025 day 1
 
-day_3:
-	make -C day_3 run
+day_2: build
+	./aoc2025 day 2
 
-all: day_1 day_2 day_3
+day_3: build
+	./aoc2025 day 3
 
-.PHONY: all day_1 day_2 day_3
+all: build
+	./aoc2025 all
+
+.PHONY: build

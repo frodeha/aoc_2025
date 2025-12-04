@@ -1,4 +1,4 @@
-package main
+package day_3
 
 import (
 	"aoc2025"
@@ -14,19 +14,43 @@ var (
 	fatal = aoc2025.Fatal
 )
 
-func main() {
-	b, err := os.ReadFile("full-input.txt")
-	fatal(err)
-
-	lines := strings.Split(string(b), "\n")
-	part1(lines)
-	fmt.Printf("\n---\n\n")
-	part2(lines)
+func Challenge() day3 {
+	return day3{}
 }
 
-func part2(lines []string) {
+type day3 struct{}
+
+func (day3) Day() int {
+	return 3
+}
+
+func (d day3) Part1() string {
 	var sum = 0
-	for _, line := range lines {
+	for _, line := range d.readInput() {
+		var (
+			batteries  = parse(line)
+			maxJoltage = 0
+		)
+
+		for idx, idxjoltage := range batteries {
+			for _, jdxJoltage := range batteries[idx+1:] {
+				newMax := (idxjoltage * 10) + jdxJoltage
+				if newMax > maxJoltage {
+					maxJoltage = newMax
+				}
+			}
+		}
+
+		debug("Batteries: %v, max joltage: %d\n", batteries, maxJoltage)
+		sum += maxJoltage
+	}
+
+	return fmt.Sprintf("The total joltage output is: %d", sum)
+}
+
+func (d day3) Part2() string {
+	var sum = 0
+	for _, line := range d.readInput() {
 		var (
 			batteries = parse(line)
 			picks     = 12
@@ -57,30 +81,13 @@ func part2(lines []string) {
 		debug("Batteries: %s, Max joltage: %d\n", line, maxJoltage)
 		sum += maxJoltage
 	}
-	fmt.Printf("Part 2: The total joltage output is: %d\n", sum)
+	return fmt.Sprintf("The total joltage output is: %d", sum)
 }
 
-func part1(lines []string) {
-	var sum = 0
-	for _, line := range lines {
-		var (
-			batteries  = parse(line)
-			maxJoltage = 0
-		)
-		for idx, idxjoltage := range batteries {
-			for _, jdxJoltage := range batteries[idx+1:] {
-				newMax := (idxjoltage * 10) + jdxJoltage
-				if newMax > maxJoltage {
-					maxJoltage = newMax
-				}
-			}
-		}
-
-		debug("Batteries: %v, max joltage: %d\n", batteries, maxJoltage)
-		sum += maxJoltage
-	}
-
-	fmt.Printf("Part 1: The total joltage output is: %d\n", sum)
+func (d day3) readInput() []string {
+	b, err := os.ReadFile(aoc2025.InputFile(d.Day()))
+	fatal(err)
+	return strings.Split(string(b), "\n")
 }
 
 func parse(line string) []int {

@@ -1,4 +1,4 @@
-package main
+package day_2
 
 import (
 	"aoc2025"
@@ -13,19 +13,17 @@ var (
 	fatal = aoc2025.Fatal
 )
 
-func main() {
-	b, err := os.ReadFile("full-input.txt")
-	fatal(err)
-
-	line := string(b)
-	ranges := strings.Split(line, ",")
-
-	part1(ranges)
-	fmt.Printf("\n\n--- \n\n")
-	part2(ranges)
+func Challenge() day2 {
+	return day2{}
 }
 
-func part1(ranges []string) {
+type day2 struct{}
+
+func (day2) Day() int {
+	return 2
+}
+
+func (d day2) Part1() string {
 	isSilly := func(s string) bool {
 		if len(s) < 2 || len(s)%2 != 0 {
 			return false
@@ -36,7 +34,7 @@ func part1(ranges []string) {
 	}
 
 	sum := 0
-	for _, r := range ranges {
+	for _, r := range d.readInput() {
 		ends := strings.Split(r, "-")
 
 		from, err := strconv.Atoi(ends[0])
@@ -52,10 +50,10 @@ func part1(ranges []string) {
 		}
 	}
 
-	fmt.Printf("Part 1: The sum of all the silly invalid ids is: %d\n", sum)
+	return fmt.Sprintf("The sum of all the silly invalid ids is: %d", sum)
 }
 
-func part2(ranges []string) {
+func (d day2) Part2() string {
 	isSilly := func(s string) bool {
 		for slice := len(s) / 2; slice > 0; slice-- {
 			if len(s)%slice != 0 {
@@ -79,7 +77,7 @@ func part2(ranges []string) {
 	}
 
 	sum := 0
-	for _, r := range ranges {
+	for _, r := range d.readInput() {
 		ends := strings.Split(r, "-")
 
 		from, err := strconv.Atoi(ends[0])
@@ -95,5 +93,11 @@ func part2(ranges []string) {
 		}
 	}
 
-	fmt.Printf("Part 2: The sum of all the silly invalid ids is: %d\n", sum)
+	return fmt.Sprintf("The sum of all the silly invalid ids is: %d", sum)
+}
+
+func (d day2) readInput() []string {
+	b, err := os.ReadFile(aoc2025.InputFile(d.Day()))
+	fatal(err)
+	return strings.Split(string(b), ",")
 }

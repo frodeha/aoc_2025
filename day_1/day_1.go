@@ -1,4 +1,4 @@
-package main
+package day_1
 
 import (
 	"aoc2025"
@@ -14,24 +14,24 @@ var (
 	assert = aoc2025.Assert
 )
 
-func main() {
-	b, err := os.ReadFile("full-input.txt")
-	fatal(err)
-
-	lines := strings.Split(string(b), "\n")
-	part1(lines)
-	debug("\n\n--\n\n")
-	part2(lines)
+func Challenge() day1 {
+	return day1{}
 }
 
-func part1(lines []string) {
+type day1 struct{}
+
+func (day1) Day() int {
+	return 1
+}
+
+func (d day1) Part1() string {
 	var (
 		zeroCount = 0
 		pos       = 50
 	)
 
 	debug("L: %3s, pos: %d, zeros: %d\n", "XX", pos, zeroCount)
-	for _, line := range lines {
+	for _, line := range d.readInput() {
 		adjustment := adjustmentFromLine(line)
 		pos = (pos + adjustment) % 100
 		if pos < 0 {
@@ -46,17 +46,17 @@ func part1(lines []string) {
 		debug("L: %3s, pos: %2d, zeros: %d\n", line, pos, zeroCount)
 	}
 
-	fmt.Printf("The number of times the dial stopped on zero is: %d\n", zeroCount)
+	return fmt.Sprintf("The number of times the dial stopped on zero is: %d", zeroCount)
 }
 
-func part2(lines []string) {
+func (d day1) Part2() string {
 	var (
 		zeroCount = 0
 		pos       = 50
 	)
 
 	debug("L: %5s, new pos: %3d, zeros: %d\n", "XX", pos, zeroCount)
-	for _, line := range lines {
+	for _, line := range d.readInput() {
 		adjustment := adjustmentFromLine(line)
 		rotations := (adjustment - (adjustment % 100)) / 100
 		if rotations < 0 {
@@ -85,7 +85,13 @@ func part2(lines []string) {
 		assert(pos >= 0 && pos < 100, "position out of bounds, expected [0,100), was %d", pos)
 	}
 
-	fmt.Printf("The number of times the dial passed zero is: %d\n", zeroCount)
+	return fmt.Sprintf("The number of times the dial passed zero is: %d", zeroCount)
+}
+
+func (d day1) readInput() []string {
+	b, err := os.ReadFile(aoc2025.InputFile(d.Day()))
+	fatal(err)
+	return strings.Split(string(b), "\n")
 }
 
 func adjustmentFromLine(line string) int {

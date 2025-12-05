@@ -6,6 +6,7 @@ import (
 	"aoc2025/day_2"
 	"aoc2025/day_3"
 	"aoc2025/day_4"
+	"aoc2025/day_5"
 	"strconv"
 
 	"fmt"
@@ -19,6 +20,7 @@ var challenges = []aoc2025.Challenge{
 	day_2.Challenge(),
 	day_3.Challenge(),
 	day_4.Challenge(),
+	day_5.Challenge(),
 }
 
 func main() {

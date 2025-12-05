@@ -13,6 +13,9 @@ day_3: build
 day_4: build
 	./aoc2025 day 4
 
+day_5: build
+	./aoc2025 day 5
+
 all: build
 	./aoc2025 all
 

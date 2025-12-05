@@ -55,6 +55,7 @@ func main() {
 			idx++
 		default:
 			printUsage("Invalid option %s", arg)
+			return
 		}
 	}
 
